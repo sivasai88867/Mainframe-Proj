@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE root SYSTEM "config.dtd">
+<root>
+    <file>%TPFSHARE%\uss_base_file_actions.xml</file>
+    <file>%TPFSHARE%\uss_file_actions.xml</file>
+    <project>%TPFSHARE%\uss_base_subproject_actions.xml</project>
+    <file>%TPFSHARE%\zlinux_base_file_actions.xml</file>
+    <file>%TPFSHARE%\zlinux_file_actions.xml</file>
+    <project>%TPFSHARE%\zlinux_base_project_actions.xml</project>
+</root>

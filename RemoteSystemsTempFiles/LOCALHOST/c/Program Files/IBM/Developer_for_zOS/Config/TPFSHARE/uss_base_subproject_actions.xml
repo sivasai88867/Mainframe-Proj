@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE root SYSTEM "actionmenufile.dtd"[
+<!ENTITY Menu_USS_Base_File_Actions 'zOS UNIX Base Subproject Actions'>
+<!ENTITY Separator '--------------'>
+<!ENTITY Action_Paste 'Paste'>
+<!ENTITY Action_Delete 'Delete'>
+<!ENTITY Action_Move 'Move...'>
+<!ENTITY Action_Rename 'Rename'>
+<!ENTITY Action_Import 'Import'>
+<!ENTITY Action_Export 'Export'>
+<!ENTITY Action_Search 'Search'>
+<!ENTITY Action_Refresh 'Refresh'>
+<!ENTITY Menu_Switch_Target_Environment 'Switch Target Environment'>
+<!ENTITY Menu_USS_Subproject_Actions 'zOS UNIX Subproject Actions'>
+<!ENTITY Action_Build 'Build...'>
+<!ENTITY Action_Link 'Link'>
+
+<!ENTITY Comment_Delete 'Delete the selected zOS UNIX subproject(s)'>
+<!ENTITY Comment_Move 'Move the subproject contents to a new physical location'>
+<!ENTITY Comment_Rename 'Rename the selected zOS UNIX Subproject'>
+<!ENTITY Comment_Import 'Launch the Import wizard'>
+<!ENTITY Comment_Export 'Launch the Export Wizard'>
+<!ENTITY Comment_Search 'Search all files in this subproject'>
+<!ENTITY Comment_Build 'Build the subproject using the build mechanism specified'>
+<!ENTITY Comment_Paste 'Paste clipboard items into the selected subproject'>
+
+]>
+<root>
+    <entity id="1063030995748" includedas="" location="" name="&Menu_USS_Base_File_Actions;" type="menu">
+        <entity id="1063030995732" includedas="" location="" name="&Action_Paste;" type="action"/>
+        <entity id="1063030995734" includedas="" location="" name="&Action_Delete;" type="action"/>
+        <entity id="1063030995736" includedas="" location="" name="&Action_Move;" type="action"/>
+        <entity id="1063030995738" includedas="" location="" name="&Action_Rename;" type="action"/>
+        <entity id="" includedas="" location="" name="&Separator;" type="separator"/>
+        <entity id="1063030995740" includedas="" location="" name="&Action_Import;" type="action"/>
+        <entity id="1063030995742" includedas="" location="" name="&Action_Export;" type="action"/>
+        <entity id="" includedas="" location="" name="&Separator;" type="separator"/>
+        <entity id="1063030995744" includedas="" location="" name="&Action_Refresh;" type="action"/>
+        <entity id="1063030995746" includedas="" location="" name="&Action_Search;" type="action"/>
+        <entity id="" includedas="" location="" name="&Separator;" type="separator"/>
+        <entity id="" includedas="submenu" location="" name="&Menu_Switch_Target_Environment;" type="menu">
+            <entity id="com.ibm.tpf.core.targetsystems.actions.TargetSystemsDynamicGroup" includedas="" location="" name="com.ibm.tpf.core.targetsystems.actions.TargetSystemsDynamicGroup" type="dynamicGroup"/>
+        </entity>
+    </entity>
+    <entity id="1121126094484" includedas="" location="" name="&Menu_USS_Subproject_Actions;" type="menu">
+        <entity id="1076622682459" includedas="" location="" name="&Action_Build;" type="action"/>
+        <entity id="1144460208326" includedas="" location="" name="&Action_Link;" type="action"/>
+    </entity>
+    <action clearconsole="pref" collectnames="false" comment="&Comment_Search;" eventsfile="" iaction_id="com.ibm.tpf.core.ui.actions.search" id="1063030995746" lengthlimit="" name="&Action_Search;" remotecommand="false" showgeneric="false" userexit="">
+        <command cmd=""/>
+    </action>
+    <action clearconsole="pref" collectnames="false" comment="&Comment_Rename;" eventsfile="" iaction_id="com.ibm.tpf.core.ui.actions.rename" id="1063030995738" lengthlimit="" name="&Action_Rename;" remotecommand="false" showgeneric="false" userexit="">
+        <command cmd=""/>
+    </action>
+    <action clearconsole="pref" collectnames="false" comment="&Comment_Import;" eventsfile="" iaction_id="com.ibm.tpf.core.ui.actions.import" id="1063030995740" lengthlimit="" name="&Action_Import;" remotecommand="false" showgeneric="false" userexit="">
+        <command cmd=""/>
+    </action>
+    <action clearconsole="pref" collectnames="false" comment="&Comment_Move;" eventsfile="" iaction_id="com.ibm.tpf.core.ui.actions.move" id="1063030995736" lengthlimit="" name="&Action_Move;" remotecommand="false" showgeneric="false" userexit="">
+        <command cmd=""/>
+    </action>
+    <action clearconsole="pref" collectnames="false" comment="&Comment_Delete;" eventsfile="" iaction_id="com.ibm.tpf.core.ui.actions.delete" id="1063030995734" lengthlimit="" name="&Action_Delete;" remotecommand="false" showgeneric="false" userexit="">
+        <command cmd=""/>
+    </action>
+    <action clearconsole="pref" collectnames="false" comment="" eventsfile="" iaction_id="com.ibm.tpf.core.ui.actions.refresh" id="1063030995744" lengthlimit="" name="&Action_Refresh;" remotecommand="false" showgeneric="false" userexit="">
+        <command cmd=""/>
+    </action>
+    <action clearconsole="pref" collectnames="false" comment="&Comment_Export;" eventsfile="" iaction_id="com.ibm.tpf.core.ui.actions.export" id="1063030995742" lengthlimit="" name="&Action_Export;" remotecommand="false" showgeneric="false" userexit="">
+        <command cmd=""/>
+    </action>
+    <action clearconsole="pref" collectnames="false" comment="&Comment_Build;" eventsfile="" iaction_id="com.ibm.tpf.core.ui.actions.ProjectListBuildAction" id="1076622682459" lengthlimit="" name="&Action_Build;" remotecommand="false" showgeneric="false" userexit="">
+        <command cmd=""/>
+    </action>
+    <action clearconsole="pref" collectnames="false" comment="&Comment_Paste;" eventsfile="" iaction_id="com.ibm.tpf.core.ui.actions.paste" id="1063030995732" lengthlimit="" name="&Action_Paste;" remotecommand="false" showgeneric="false" userexit="">
+        <command cmd=""/>
+    </action>
+    <action clearconsole="pref" collectnames="false" comment="" eventsfile="" iaction_id="com.ibm.tpf.core.builders.ProjectLinkAction" id="1144460208326" lengthlimit="" name="&Action_Link;" remotecommand="false" showgeneric="false" userexit="">
+        <command cmd=""/>
+    </action>
+</root>

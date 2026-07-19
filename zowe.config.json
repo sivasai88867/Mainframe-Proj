@@ -1,0 +1,59 @@
+{
+    "$schema": "./zowe.schema.json",
+    "profiles": {
+        "zosmf": {
+            "type": "zosmf",
+            "properties": {
+                "port": 10443
+            },
+            "secure": []
+        },
+        "tso": {
+            "type": "tso",
+            "properties": {
+                "account": "",
+                "codePage": "1047",
+                "logonProcedure": "IZUFPROC"
+            },
+            "secure": []
+        },
+        "ssh": {
+            "type": "ssh",
+            "properties": {
+                "port": 2444
+            },
+            "secure": []
+        },
+        "cics": {
+            "type": "cics",
+            "properties": {
+                // replace the host, port, and protocol with your CMCI connection details
+                "host": "204.13.233.194",
+                "port": 1490,
+                "protocol": "http",
+                // reject self-signed server certificates if using https?
+                "rejectUnauthorized": false,
+            },
+            "secure": []
+        },
+        "global_base": {
+            "type": "base",
+            "properties": {
+                "host": "204.13.233.194",
+                "rejectUnauthorized": false
+            },
+            "secure": [
+                "user",
+                "password"
+            ]
+        }
+    },
+    "defaults": {
+        "zosmf": "zosmf",
+        "tso": "tso",
+        "ssh": "ssh",
+        "cics": "cics",
+        "base": "global_base"
+    },
+    "autoStore": true
+}
