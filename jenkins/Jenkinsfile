@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Checkout Source') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build Information') {
+            steps {
+                echo "=================================="
+                echo "Branch Name : ${env.BRANCH_NAME}"
+                echo "Build Number: ${env.BUILD_NUMBER}"
+                echo "Workspace   : ${env.WORKSPACE}"
+                echo "=================================="
+            }
+        }
+
+        stage('List Repository Files') {
+            steps {
+                bat 'dir'
+            }
+        }
+
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully.'
+        }
+
+        failure {
+            echo 'Pipeline failed.'
+        }
+    }
+}
