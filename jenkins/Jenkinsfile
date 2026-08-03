@@ -29,6 +29,22 @@ pipeline {
             }
         }
 
+        stage('Detect Changed Files') {
+            steps {
+                script {
+                    def changedFiles = bat(
+                        script: 'git diff --name-only HEAD~1 HEAD',
+                        returnStdout: true
+                        ).trim()
+                        
+                        echo "=================================="
+                        echo "Changed Files:"
+                        echo changedFiles
+                        echo "=================================="
+                }
+            }
+        }
+
     }
 
     post {
