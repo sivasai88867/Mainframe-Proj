@@ -67,7 +67,7 @@ pipeline {
                         echo "=================================="
                     
                     def cobolfiles = changedFiles
-                                     .readlines()
+                                     .readLines()
                                      .findAll {
                                      it.toLowerCase().endsWith('.cbl') ||
                                      it.toLowerCase().endsWith('.cob')
