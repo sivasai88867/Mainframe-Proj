@@ -33,10 +33,10 @@ pipeline {
             steps {
                 script {
                     def changedFiles = bat(
-                        script: 'git diff --name-only HEAD~1 HEAD',
+                        script: '@git diff --name-only HEAD~1 HEAD',
                         returnStdout: true
                         ).trim()
-                        
+
                         echo "=================================="
                         echo "Changed Files:"
                         echo changedFiles
