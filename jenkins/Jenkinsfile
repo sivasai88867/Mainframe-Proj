@@ -25,10 +25,8 @@ pipeline {
 
         stage('verify zowe version') {
             steps {
-                  bat '
-                        node --version
-                        zowe --version
-                     '
+                  bat 'node --version'
+                  bat 'zowe --version'
             }
             
         }
