@@ -25,7 +25,7 @@ pipeline {
 
         stage('verify zowe version') {
             steps {
-                bat 'zowe --version'
+                  bat '"C:\\Users\\Siva Vadrevu\\AppData\\Roaming\\npm\\zowe.cmd" --version'
             }
             
         }
