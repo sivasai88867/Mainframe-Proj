@@ -23,6 +23,13 @@ pipeline {
             }
         }
 
+        stage('verify zowe version') {
+            steps {
+                bat 'zowe --version'
+            }
+            
+        }
+
         stage('List Repository Files') {
             steps {
                 bat 'dir'
