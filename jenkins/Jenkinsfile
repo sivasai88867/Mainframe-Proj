@@ -65,6 +65,13 @@ pipeline {
                         echo "Changed Files:"
                         echo changedFiles
                         echo "=================================="
+                    
+                    def cobolfiles = changedFiles
+                                     .readlines()
+                                     .findAll {
+                                     it.toLowerCase().endsWith('.cbl') ||
+                                     it.toLowerCase().endsWith('.cob')
+                                     }
                 }
             }
         }
