@@ -75,9 +75,29 @@ pipeline {
 
                           echo "Changed COBOL Files:"
                           echo "${cobolFiles}"
+                          env.COBOL_FILES = cobolFiles.join(',')
                     }
                 }
             }
+        stage('upload cobol to Zos') { 
+            steps {
+                script {
+                     if (env.COBOL_FILES) {
+
+                         def files = env.COBOL_FILES.split(',')
+                         files.each { file ->
+                             def fileName = file.tokenize('/').last()
+                             def memberName = fileName.substring(0, fileName.lastIndexOf('.')).toUpperCase()
+                            
+                             echo "Uploading: ${file}"
+                             echo "PDS Member: ${memberName}"
+
+                         }
+                     }
+                 }
+
+            }
+
         }
 
 
