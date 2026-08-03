@@ -72,6 +72,10 @@ pipeline {
                                      it.toLowerCase().endsWith('.cbl') ||
                                      it.toLowerCase().endsWith('.cob')
                                      }
+
+                          echo "Changed COBOL Files:"
+                          echo "${cobolFiles}"
+                    }
                 }
             }
         }
