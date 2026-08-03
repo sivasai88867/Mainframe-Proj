@@ -33,7 +33,17 @@ pipeline {
 
         stage('Test zOSMF Connection') {
             steps {
-                 bat 'zowe zosmf check status'
+                withCredentials([
+                usernamePassword(
+                    credentialsId: 'zosmf-credentials',
+                    usernameVariable: 'ZOS_USER',
+                    passwordVariable: 'ZOS_PASS'
+                )
+                ]) {
+                     bat '''
+                        zowe zosmf check status --host 204.13.233.194 --port 10443 --user %ZOS_USER% --password %ZOS_PASS% --reject-unauthorized false
+                        '''
+                    }
             }
         }
 
