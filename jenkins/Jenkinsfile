@@ -25,11 +25,10 @@ pipeline {
 
         stage('verify zowe version') {
             steps {
-                  bat '''
-                        set "PATH=C:\\Program Files\\nodejs;C:\\Users\\Siva Vadrevu\\AppData\\Roaming\\npm;%PATH%"
+                  bat '
                         node --version
                         zowe --version
-                     '''
+                     '
             }
             
         }
