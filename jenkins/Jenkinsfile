@@ -85,6 +85,14 @@ pipeline {
                      if (env.COBOL_FILES) {
 
                          def files = env.COBOL_FILES.split(',')
+                         withCredentials([
+                         usernamePassword(
+                         credentialsId: 'zosmf-credentials',
+                         usernameVariable: 'ZOS_USER',
+                         passwordVariable: 'ZOS_PASS'
+                         )
+                         ]) {
+
                          files.each { file ->
                              def fileName = file.tokenize('/').last()
                              def memberName = fileName.substring(0, fileName.lastIndexOf('.')).toUpperCase()
@@ -92,10 +100,19 @@ pipeline {
                              echo "Uploading: ${file}"
                              echo "PDS Member: ${memberName}"
 
+                              bat """
+                            zowe zos-files upload file-to-data-set "${file}" "IDZGS7.TEST.SRCLIB(${memberName})" ^
+                            --host 204.13.233.194 ^
+                            --port 10443 ^
+                            --user %ZOS_USER% ^
+                            --password %ZOS_PASS% ^
+                            --reject-unauthorized false
+                             """
                          }
                      }
+                 }else {
+                     echo "No COBOL files to upload."
                  }
-
             }
 
         }
