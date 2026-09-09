@@ -117,6 +117,53 @@ pipeline {
 
                 }
         }
+        stage('Compile COBOL') {
+            steps {
+                script {
+                    if (env.COBOL_FILES) {
+                        def files = env.COBOL_FILES.split(',')
+                        withCredentials([
+                            usernamePassword(
+                            credentialsId: 'zosmf-credentials',
+                            usernameVariable: 'ZOS_USER',
+                            passwordVariable: 'ZOS_PASS'
+                            )
+                        ]) {
+                            files.each { file ->
+
+                            def fileName = file.tokenize('/').last()
+
+                            def memberName = fileName
+                                .substring(0, fileName.lastIndexOf('.'))
+                                .toUpperCase()
+
+                                echo "=================================="
+                                echo "Compiling COBOL"
+                                echo "Source File : ${file}"
+                                echo "Member Name : ${memberName}"
+                                echo "=================================="
+
+                                bat """
+                                    zowe zos-jobs submit data-set "IDZGS7.TEST.JCLLIB(CBLCMPLK)" ^
+                                    --jcl-symbols "MEMBER=${memberName}" ^
+                                    --host 204.13.233.194 ^
+                                    --port 10443 ^
+                                    --user %ZOS_USER% ^
+                                    --password %ZOS_PASS% ^
+                                    --reject-unauthorized false ^
+                                    --wait-for-output ^
+                                    --view-all-spool-content
+                                    """
+                                 }
+                           }
+                            } else {
+                                    echo "No COBOL files changed. Nothing to compile."
+                                    }
+                        }
+                    }
+            
+            }
+        }
     }
 
     post {
