@@ -78,7 +78,7 @@ pipeline {
                           env.COBOL_FILES = cobolFiles.join(',')
                     }
                 }
-            }
+        }
         stage('upload cobol to Zos') { 
             steps {
                 script {
@@ -115,8 +115,8 @@ pipeline {
                  }
             }
 
+                }
         }
-    }
     }
 
     post {
