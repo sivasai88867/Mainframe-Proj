@@ -1,5 +1,5 @@
        IDENTIFICATION DIVISION.
        PROGRAM-ID. HELLO-WORLD.
        PROCEDURE DIVISION.
-           DISPLAY 'Siva HELLO WORLD'.
+           DISPLAY 'modified HELLOWORLD pgm to copy to PDS from VScode'
            STOP RUN.

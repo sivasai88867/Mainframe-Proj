@@ -1,0 +1,177 @@
+pipeline {
+    agent any
+
+    options {
+        skipDefaultCheckout(true)
+    }
+
+    stages {
+
+        stage('Checkout Source') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build Information') {
+            steps {
+                echo "=================================="
+                echo "Branch Name : ${env.BRANCH_NAME}"
+                echo "Build Number: ${env.BUILD_NUMBER}"
+                echo "Workspace   : ${env.WORKSPACE}"
+                echo "=================================="
+            }
+        }
+
+        stage('verify zowe version') {
+            steps {
+                  bat 'node --version'
+                  bat 'zowe --version'
+            }
+            
+        }
+
+        stage('Test zOSMF Connection') {
+            steps {
+                withCredentials([
+                usernamePassword(
+                    credentialsId: 'zosmf-credentials',
+                    usernameVariable: 'ZOS_USER',
+                    passwordVariable: 'ZOS_PASS'
+                )
+                ]) {
+                     bat '''
+                        zowe zosmf check status --host 204.13.233.194 --port 10443 --user %ZOS_USER% --password %ZOS_PASS% --reject-unauthorized false
+                        '''
+                    }
+            }
+        }
+
+        stage('List Repository Files') {
+            steps {
+                bat 'dir'
+            }
+        }
+
+        stage('Detect Changed Files') {
+            steps {
+                script {
+                    def changedFiles = bat(
+                        script: '@git diff --name-only HEAD~1 HEAD',
+                        returnStdout: true
+                        ).trim()
+
+                        echo "=================================="
+                        echo "Changed Files:"
+                        echo changedFiles
+                        echo "=================================="
+                    
+                    def cobolFiles = changedFiles
+                                     .readLines()
+                                     .findAll {
+                                     it.toLowerCase().endsWith('.cbl') ||
+                                     it.toLowerCase().endsWith('.cob')
+                                     }
+
+                          echo "Changed COBOL Files:"
+                          echo "${cobolFiles}"
+                          env.COBOL_FILES = cobolFiles.join(',')
+                    }
+                }
+        }
+        stage('upload cobol to Zos') { 
+            steps {
+                script {
+                     if (env.COBOL_FILES) {
+
+                         def files = env.COBOL_FILES.split(',')
+                         withCredentials([
+                         usernamePassword(
+                         credentialsId: 'zosmf-credentials',
+                         usernameVariable: 'ZOS_USER',
+                         passwordVariable: 'ZOS_PASS'
+                         )
+                         ]) {
+
+                         files.each { file ->
+                             def fileName = file.tokenize('/').last()
+                             def memberName = fileName.substring(0, fileName.lastIndexOf('.')).toUpperCase()
+                            
+                             echo "Uploading: ${file}"
+                             echo "PDS Member: ${memberName}"
+
+                              bat """
+                            zowe zos-files upload file-to-data-set "${file}" "IDZGS7.TEST.SRCLIB(${memberName})" ^
+                            --host 204.13.233.194 ^
+                            --port 10443 ^
+                            --user %ZOS_USER% ^
+                            --password %ZOS_PASS% ^
+                            --reject-unauthorized false
+                             """
+                         }
+                     }
+                 }else {
+                     echo "No COBOL files to upload."
+                 }
+            }
+
+                }
+        }
+        stage('Compile COBOL') {
+            steps {
+                script {
+                    if (env.COBOL_FILES) {
+                        def files = env.COBOL_FILES.split(',')
+                        withCredentials([
+                            usernamePassword(
+                            credentialsId: 'zosmf-credentials',
+                            usernameVariable: 'ZOS_USER',
+                            passwordVariable: 'ZOS_PASS'
+                            )
+                        ]) {
+                            files.each { file ->
+
+                            def fileName = file.tokenize('/').last()
+
+                            def memberName = fileName
+                                .substring(0, fileName.lastIndexOf('.'))
+                                .toUpperCase()
+
+                                echo "=================================="
+                                echo "Compiling COBOL"
+                                echo "Source File : ${file}"
+                                echo "Member Name : ${memberName}"
+                                echo "=================================="
+
+                                bat """
+                                    zowe zos-jobs submit data-set "IDZGS7.TEST.JCLLIB(CBLCMPLK)" ^
+                                    --jcl-symbols "MEMBER=${memberName}" ^
+                                    --host 204.13.233.194 ^
+                                    --port 10443 ^
+                                    --user %ZOS_USER% ^
+                                    --password %ZOS_PASS% ^
+                                    --reject-unauthorized false ^
+                                    --wait-for-output ^
+                                    --view-all-spool-content
+                                    """
+                                 }
+                           }
+                            } else {
+                                    echo "No COBOL files changed. Nothing to compile."
+                                    }
+                        }
+                    }
+            
+            }
+        }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully.'
+        }
+
+        failure {
+            echo 'Pipeline failed.'
+        }
+    }
+}
